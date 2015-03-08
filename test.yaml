@@ -1,0 +1,40 @@
+root:
+  scene:
+    name: mainscene
+    type: 1
+    velocity:
+      magnitude: 0
+      direction:
+        y: 0
+        x: 0
+    children:
+      - sprite:
+          name: background
+          type: 2
+          velocity:
+            direction:
+              x: 0
+              y: 0
+            magnitude: 0
+          position:
+            x: 0
+            y: 0
+          rotation: 0
+          texture_path: texture.png
+      - sprite:
+          name: otherstuff
+          type: 2
+          velocity:
+            direction:
+              x: 1
+              y: 0
+            magnitude: 45
+          position:
+            x: 150
+            y: 0
+          rotation: 0
+          texture_path: texture2.png
+    position:
+      x: 0
+      y: 0
+    rotation: 0
