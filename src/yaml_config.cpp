@@ -70,7 +70,6 @@ namespace YAML {
             } else {
                 node[type]["children"].push_back(rhs->children[i]);
             }
-            
         }
         return node;
       }
@@ -80,16 +79,28 @@ namespace YAML {
             return false;
         }
         std::string type;
-        const Node root = node["root"];
 
-        if(root["node"].IsDefined()) {
-            type = "node";
-            printf("test1\n");        
-        } else if(root["scene"].IsDefined()) {
+        if(node["root"]["node"].IsDefined()) {
+            type = "node";       
+        } else if(node["root"]["scene"].IsDefined()) {
             type = "scene";
-            printf("test\n");
         }
-        rhs->name = "test"; //TODO: fix!!!
+        const Node n = node["root"][type];
+
+        rhs->name = n["name"].as<std::string>();
+        rhs->type = n["type"].as<int>();
+        rhs->setVelocity(n["velocity"].as<Velocity>());
+        rhs->setPosition(n["position"].as<Point>());
+        rhs->setRotation(n["rotation"].as<float>());
+
+        for(unsigned i = 0; i < n["children"].size(); i++) {
+            if(n["children"]["type"].as<int>() == SPRITE) {
+                rhs->addChild(n["children"].as<SpriteNode*>());
+            } else {
+                rhs->addChild(n["children"].as<EngineNode*>());
+            }
+        }
+
         return true;
       }
     };
