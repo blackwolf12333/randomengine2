@@ -13,7 +13,7 @@ public:
     YamlConfig();
     ~YamlConfig();
     
-    void write(std::string path, EngineNode *node);
+    void write(std::string path, const EngineNode *node);
     bool writeNode(EngineNode *node);
     EngineNode *read(std::string path);
 

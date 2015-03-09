@@ -15,7 +15,7 @@
 class SpriteNode : public EngineNode
 {
 public:
-    SpriteNode(EngineNode node);
+    SpriteNode();
     SpriteNode(const SpriteNode &node);
     SpriteNode(std::string texture_path, Point position);
     SpriteNode(std::string texture_path, float x, float y);
@@ -25,9 +25,10 @@ public:
     std::string getTexturePath();
     void setTexturePath(std::string path);
     static SDL_Texture *loadTexture(std::string path);
+
+    std::string texture_path;
 private:
     SDL_Texture *texture;
-    std::string texture_path;
 
     void init(std::string texture_path, float x, float y);
 };

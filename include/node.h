@@ -35,6 +35,7 @@ typedef struct Body_t {
 class EngineNode {
 public:
     EngineNode();
+    EngineNode(const EngineNode &rhs);
     ~EngineNode();
 
     std::string name;
@@ -60,7 +61,6 @@ public:
     void setRotation(float rotation);
     void setVelocity(Velocity velocity);
 
-protected:
     Point position;
     float rotation;
     Velocity velocity; // in pixels per frame

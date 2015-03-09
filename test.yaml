@@ -2,11 +2,6 @@ root:
   scene:
     name: mainscene
     type: 1
-    velocity:
-      magnitude: 0
-      direction:
-        y: 0
-        x: 0
     children:
       - sprite:
           name: background
@@ -34,6 +29,11 @@ root:
             y: 0
           rotation: 0
           texture_path: texture2.png
+    velocity:
+      direction:
+        y: 0
+        x: 0
+      magnitude: 0
     position:
       x: 0
       y: 0

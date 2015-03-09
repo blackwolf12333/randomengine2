@@ -5,6 +5,15 @@ EngineNode::EngineNode() {
     velocity = Velocity { Vector{ 0, 0 }, 0 };
 }
 
+EngineNode::EngineNode(const EngineNode &rhs) {
+    this->rotation = rhs.rotation;
+    this->velocity = rhs.velocity;
+    this->position = rhs.position;
+    this->parent = rhs.parent;
+    this->type = rhs.type;
+    this->name = rhs.name;
+}
+
 EngineNode::~EngineNode() {}
 
 /**

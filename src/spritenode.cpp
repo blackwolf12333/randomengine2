@@ -1,11 +1,9 @@
 #include "spritenode.h"
 #include "main.h"
 
-SpriteNode::SpriteNode(EngineNode node) {
-    this->type = node.type;
-    this->rotation = node.getRotation();
-    this->velocity = node.getVelocity();
-    this->position = node.getPosition();
+SpriteNode::SpriteNode() {}
+SpriteNode::~SpriteNode() {
+    SDL_DestroyTexture(texture);
 }
 
 SpriteNode::SpriteNode(const SpriteNode& node) {

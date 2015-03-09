@@ -47,57 +47,57 @@ namespace YAML {
     };
 
     template<>
-    struct convert<EngineNode*> {
-      static Node encode(EngineNode *rhs) {
+    struct convert<EngineNode> {
+      static Node encode(const EngineNode &rhs) {
         Node node;
         std::string type;
-        if(rhs->type == 0) {
+        if(rhs.type == 0) {
             type = "node";
-        } else if(rhs->type == 1) {
+        } else if(rhs.type == 1) {
             type = "scene";
-        } else if(rhs->type == 3) {
+        } else if(rhs.type == 3) {
             type = "particle";
         }
-        node[type]["name"] = rhs->name;
-        node[type]["type"] = rhs->type;
-        node[type]["velocity"] = rhs->getVelocity();
-        node[type]["position"] = rhs->getPosition();
-        node[type]["rotation"] = rhs->getRotation();
+        node[type]["name"] = rhs.name;
+        node[type]["type"] = rhs.type;
+        node[type]["velocity"] = rhs.velocity;
+        node[type]["position"] = rhs.position;
+        node[type]["rotation"] = rhs.rotation;
 
-        for(unsigned i = 0; i < rhs->children.size(); i++) {
-            if(rhs->children[i]->type == SPRITE) {
-                node[type]["children"].push_back((SpriteNode*)rhs->children[i]);
+        for(unsigned i = 0; i < rhs.children.size(); i++) {
+            if(rhs.children[i]->type == SPRITE) {
+                node[type]["children"].push_back(*((SpriteNode*)rhs.children[i]));
             } else {
-                node[type]["children"].push_back(rhs->children[i]);
+                node[type]["children"].push_back(*rhs.children[i]);
             }
         }
         return node;
       }
 
-      static bool decode(const Node& node, EngineNode *rhs) {
-        if((!node["root"]["node"].IsDefined()) && (!node["root"]["scene"].IsDefined()) && (!node["particle"].IsDefined())) {
+      static bool decode(const Node& node, EngineNode &rhs) {
+        if((!node["node"].IsDefined()) && (!node["scene"].IsDefined()) && (!node["particle"].IsDefined())) {
             return false;
         }
         std::string type;
 
-        if(node["root"]["node"].IsDefined()) {
+        if(node["node"].IsDefined()) {
             type = "node";       
-        } else if(node["root"]["scene"].IsDefined()) {
+        } else if(node["scene"].IsDefined()) {
             type = "scene";
         }
-        const Node n = node["root"][type];
+        const Node n = node[type];
 
-        rhs->name = n["name"].as<std::string>();
-        rhs->type = n["type"].as<int>();
-        rhs->setVelocity(n["velocity"].as<Velocity>());
-        rhs->setPosition(n["position"].as<Point>());
-        rhs->setRotation(n["rotation"].as<float>());
+        rhs.name = n["name"].as<std::string>();
+        rhs.type = n["type"].as<int>();
+        rhs.setVelocity(n["velocity"].as<Velocity>());
+        rhs.setPosition(n["position"].as<Point>());
+        rhs.setRotation(n["rotation"].as<float>());
 
-        for(unsigned i = 0; i < n["children"].size(); i++) {
-            if(n["children"]["type"].as<int>() == SPRITE) {
-                rhs->addChild(n["children"].as<SpriteNode*>());
+        for(std::size_t i = 0; i < n["children"].size(); i++) {
+            if(n["children"][i]["sprite"].IsDefined()) {
+                rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
             } else {
-                rhs->addChild(n["children"].as<EngineNode*>());
+                rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
             }
         }
 
@@ -106,35 +106,48 @@ namespace YAML {
     };
 
     template<>
-    struct convert<SpriteNode*> {
-      static Node encode(SpriteNode *rhs) {
+    struct convert<SpriteNode> {
+      static Node encode(const SpriteNode &rhs) {
         Node node;
+        std::string type = "sprite";
 
-        node["sprite"]["name"] = rhs->name;
-        node["sprite"]["type"] = rhs->type;
-        node["sprite"]["velocity"] = rhs->getVelocity();
-        node["sprite"]["position"] = rhs->getPosition();
-        node["sprite"]["rotation"] = rhs->getRotation();
-        node["sprite"]["texture_path"] = rhs->getTexturePath();
+        node[type]["name"] = rhs.name;
+        node[type]["type"] = rhs.type;
+        node[type]["velocity"] = rhs.velocity;
+        node[type]["position"] = rhs.position;
+        node[type]["rotation"] = rhs.rotation;
+        node[type]["texture_path"] = rhs.texture_path;
 
-        for(unsigned i = 0; i < rhs->children.size(); i++) {
-            if(rhs->children[i]->type == SPRITE) {
-                //node["sprite"]["children"].push_back((casttospritenode)rhs->children[i]);
+        for(unsigned i = 0; i < rhs.children.size(); i++) {
+            if(rhs.children[i]->type == SPRITE) {
+                node[type]["children"].push_back(*((SpriteNode*)rhs.children[i]));
             } else {
-                node["sprite"]["children"].push_back(rhs->children[i]);
+                node[type]["children"].push_back(*rhs.children[i]);
             }
-            
         }
         return node;
       }
 
-      static bool decode(const Node& node, SpriteNode *rhs) {
-        if(!node["root"]["sprite"].IsDefined()) {
-            printf("no sprite\n");
+      static bool decode(const Node& n, SpriteNode &rhs) {
+        if(!n["type"].IsDefined() && n["type"].as<int>() != 2) {
             return false;
         }
-        rhs->name = "test";
-        //TODO fix
+
+        rhs.name = n["name"].as<std::string>();
+        rhs.type = n["type"].as<int>();
+        rhs.setVelocity(n["velocity"].as<Velocity>());
+        rhs.setPosition(n["position"].as<Point>());
+        rhs.setRotation(n["rotation"].as<float>());
+        rhs.setTexturePath(n["texture_path"].as<std::string>());
+
+        for(std::size_t i = 0; i < n["children"].size(); i++) {
+            if(n["children"][i]["sprite"].IsDefined()) {
+                rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
+            } else {
+                rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
+            }
+        }
+
         return true;
       }
     };
@@ -143,10 +156,10 @@ namespace YAML {
 YamlConfig::YamlConfig() {}
 YamlConfig::~YamlConfig() {}
 
-void YamlConfig::write(std::string path, EngineNode *node) {
+void YamlConfig::write(std::string path, const EngineNode *node) {
     YAML::Node doc = YAML::LoadFile(path);
 
-    doc["root"] = node;
+    doc["root"] = *node;
 
     std::ofstream fout(path);
     fout << doc;
@@ -158,7 +171,7 @@ bool YamlConfig::writeNode(EngineNode *node) {
 
 EngineNode *YamlConfig::read(std::string path) {
     YAML::Node doc = YAML::LoadFile(path);
-    EngineNode *node = readNode(doc);
+    EngineNode *node = new EngineNode(doc["root"].as<EngineNode>());
     Point point = readPoint(doc);
     Velocity vel = readVelocity(doc);
     
@@ -169,7 +182,7 @@ EngineNode *YamlConfig::read(std::string path) {
 }
 
 EngineNode *YamlConfig::readNode(YAML::Node& yaml_node) {
-    return yaml_node.as<EngineNode*>();
+    return NULL; // unimplemented
 }
 
 Velocity YamlConfig::readVelocity(YAML::Node& node) {
