@@ -23,13 +23,13 @@ SDL_Renderer *Main::renderer;
  */
 void Main::initSDL() {
     int init = SDL_Init(SDL_INIT_EVERYTHING);
-    if (init != 0){
+    if (init != 0) {
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
         this->quit(INIT_FAILED);
     }
 
     this->window = SDL_CreateWindow("Hello World!", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    if (this->window == NULL){
+    if (this->window == NULL || strlen(SDL_GetError()) != 0){
         std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         this->quit(WINDOW_INIT_FAILED);
     }
@@ -49,7 +49,7 @@ void Main::initSDL() {
     // load support for the JPG and PNG image formats
     int flags = IMG_INIT_JPG|IMG_INIT_PNG;
     int initted = IMG_Init(flags);
-    if((initted&flags) != flags) {
+    if((initted&flags) != flags || strlen(IMG_GetError()) != 0) {
         printf("IMG_Init: Failed to init required jpg and png support!\n");
         printf("IMG_Init: %s\n", IMG_GetError());
         this->quit(IMAGE_INIT_FAILED); // we can't do shit like this...
@@ -60,11 +60,11 @@ void Main::initSDL() {
 
     // any errors? display them now and quit.
     const char *errors = SDL_GetError();
-    if(errors == NULL) { // no problems at start up
+    if(errors != NULL || strlen(errors) == 0) { // no problems at start up
         return;
     } else {
         printf("Initial errors: %s\n", errors);
-        //this->quit(INIT_FAILED);
+        this->quit(INIT_FAILED);
     }
 }
 
