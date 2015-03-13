@@ -78,13 +78,13 @@ void Main::initGameScene() {
  */
 void Main::loop() {
     bool running = true;
-    Uint32 current_time, old_time;
+    float current_time, old_time;
     current_time = SDL_GetTicks();
     SDL_Event e;
     while (running) {
         old_time = current_time;
-        current_time = SDL_GetTicks();
-        Uint32 delta = current_time - old_time;
+        current_time = (float)SDL_GetTicks();
+        float delta = (current_time - old_time) / 1000; // get milliseconds per second
 
         while (SDL_PollEvent(&e)){
             //If user closes the window
