@@ -23,7 +23,7 @@ root:
             direction:
               x: 1
               y: 0
-            magnitude: 45
+            magnitude: 100
           position:
             x: 150
             y: 0

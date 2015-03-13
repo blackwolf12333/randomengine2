@@ -72,7 +72,7 @@ void updatePhysicsFor(float delta, EngineNode *node) {
     float velocity_dy = velocity.direction.y * velocity.magnitude;
     float x = position.x + (velocity_dx * delta);
     float y = position.y + (velocity_dy * delta);
-    //printf("node: %p x: %f, y: %f delta: %f\n", node, x, y, delta);
+    printf("node: %s x: %f, y: %f delta: %f\n", node->name.c_str(), x, y, delta);
     node->setPosition(Point { x, y });
 }
 
