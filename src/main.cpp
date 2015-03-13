@@ -35,16 +35,13 @@ void Main::initSDL() {
     }
 
     printf("NumRenderDrivers: %d\n", SDL_GetNumRenderDrivers());
-    for (int i = 0; i < SDL_GetNumRenderDrivers(); i++) {
-        SDL_Renderer *r = SDL_CreateRenderer(this->window, i, 0);
-        SDL_RendererInfo info;
-        SDL_GetRendererInfo(r, &info);
-        printf("Renderer name: %s\n", info.name);
-        SDL_DestroyRenderer(r);
-    }
-
-    renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_SOFTWARE);
-    if (renderer == NULL){
+    /* Without this I can't make any renderer work, my best guess is that this is a bug and will
+       be fixed sooner or later */
+    SDL_GL_LoadLibrary("/usr/lib/libGL.so");
+    std::cout << "SDL_GL_LoadLibrary: " << SDL_GetError() << std::endl;
+    
+    Main::renderer = SDL_CreateRenderer(this->window, 1, SDL_RENDERER_ACCELERATED);
+    if (Main::renderer == NULL || strlen(SDL_GetError()) != 0){
         std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
         this->quit(RENDERER_INIT_FAILED);
     }
@@ -105,7 +102,7 @@ void Main::loop() {
         }
 
         // clear the screen with black
-        SDL_RenderClear(renderer);
+        SDL_RenderClear(Main::renderer);
 
         // update
         this->scene->update(delta);
@@ -114,7 +111,7 @@ void Main::loop() {
         scene->renderScene();
 
         // Swap buffers
-        SDL_RenderPresent(this->renderer);
+        SDL_RenderPresent(Main::renderer);
     }
 }
 
@@ -123,7 +120,7 @@ void Main::loop() {
  */
 void Main::cleanup() {
     delete scene;
-    SDL_DestroyRenderer(this->renderer);
+    SDL_DestroyRenderer(Main::renderer);
     SDL_DestroyWindow(this->window);
     IMG_Quit();
     SDL_Quit();
