@@ -57,7 +57,7 @@ EngineNode* EngineNode::getChildWithName(std::string name) {
 }
 
 bool EngineNode::hasChildren() {
-    return this->children.empty();
+    return this->children.size() != 0; // if size == 0 return false
 }
 
 EngineNode* EngineNode::getParent() {
