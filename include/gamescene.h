@@ -16,9 +16,6 @@ public:
     void update(float delta);
 
     void onInput(SDL_Event e);
-private:
-    SpriteNode *bg;
-    SpriteNode *sp;
 };
 
 #endif

@@ -1,8 +1,12 @@
 #include "node.h"
 
 EngineNode::EngineNode() {
-    rotation = 0;
-    velocity = Velocity { Vector{ 0, 0 }, 0 };
+    this->rotation = 0.0f;
+    this->velocity = {0};
+    this->position = {0};
+    this->parent = NULL;
+    this->type = NODE;
+    this->name = "";
 }
 
 EngineNode::EngineNode(const EngineNode &rhs) {

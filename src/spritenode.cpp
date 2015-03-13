@@ -1,7 +1,16 @@
 #include "spritenode.h"
 #include "main.h"
 
-SpriteNode::SpriteNode() {}
+SpriteNode::SpriteNode() {
+    this->type = SPRITE;
+    this->name = "";
+    this->rotation = 0.0f;
+    this->velocity = {0};
+    this->position = {0};
+    this->texture = NULL;
+    this->texture_path = "";
+}
+
 SpriteNode::~SpriteNode() {
     SDL_DestroyTexture(texture);
 }
@@ -10,6 +19,7 @@ SpriteNode::SpriteNode(const SpriteNode& node) {
     this->type = node.type;
     this->rotation = node.rotation;
     this->velocity = node.velocity;
+    this->texture = NULL;
     init(node.texture_path, node.position.x, node.position.y);
 }
 
@@ -39,6 +49,10 @@ void SpriteNode::init(std::string texture_path, float x, float y) {
 }
 
 SDL_Texture *SpriteNode::getTexture() {
+    if (this->texture == NULL) { // Try to load the texture again if it is still null at this point
+        printf("Null texture: %s\n", this->texture_path.c_str());
+        this->texture = SpriteNode::loadTexture(this->texture_path);
+    }
     return this->texture;
 }
 
@@ -55,11 +69,11 @@ void SpriteNode::setTexturePath(std::string path) {
  */
 SDL_Texture *SpriteNode::loadTexture(std::string path) {
     SDL_Texture *texture = IMG_LoadTexture(Main::renderer, path.c_str());
-    if (texture == NULL || IMG_GetError()) {
+    if (strlen(IMG_GetError()) != 0 || strlen(SDL_GetError()) != 0) {
         printf("Failed to load texture: %s\n", path.c_str());
         printf("Error: %s\n", IMG_GetError());
         printf("Error: %s\n", SDL_GetError());
-        return texture;
+        return NULL;
     }
     return texture;
 }

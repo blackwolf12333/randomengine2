@@ -19,7 +19,6 @@ namespace YAML {
           return false;
         }
 
-        
         rhs.x = node["x"].as<float>();
         rhs.y = node["y"].as<float>();
         return true;
@@ -165,30 +164,8 @@ void YamlConfig::write(std::string path, const EngineNode *node) {
     fout << doc;
 }
 
-bool YamlConfig::writeNode(EngineNode *node) {
-    return false;
-}
-
 EngineNode *YamlConfig::read(std::string path) {
     YAML::Node doc = YAML::LoadFile(path);
     EngineNode *node = new EngineNode(doc["root"].as<EngineNode>());
-    Point point = readPoint(doc);
-    Velocity vel = readVelocity(doc);
-    
-    printf("%f\n", vel.magnitude);
-    printf("%f, %f\n", point.x, point.y);
-    printf("%s\n", node->name.c_str());
     return node;
-}
-
-EngineNode *YamlConfig::readNode(YAML::Node& yaml_node) {
-    return NULL; // unimplemented
-}
-
-Velocity YamlConfig::readVelocity(YAML::Node& node) {
-    return node["root"]["scene"]["velocity"].as<Velocity>();
-}
-
-Point YamlConfig::readPoint(YAML::Node& node) {
-    return node["root"]["scene"]["position"].as<Point>();
 }

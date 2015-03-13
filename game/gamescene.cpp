@@ -2,18 +2,14 @@
 #include "yaml_config.h"
 
 GameScene::GameScene() {
-    this->setName("mainscene");
-    this->bg = new SpriteNode("texture.png", 0, 0);
-    this->sp = new SpriteNode("texture2.png", 150, 0);
-    this->sp->setVelocity(Velocity { Vector{1.0f, 0}, 45 });
-    this->bg->setName("background");
-    this->sp->setName("otherstuff");
-    this->addChild(this->bg);
-    this->addChild(this->sp);
-
     YamlConfig *yaml = new YamlConfig();
-    yaml->write("test.yaml", this);
-    yaml->read("test.yaml");
+    EngineNode *scene = yaml->read("test.yaml");
+    this->children = scene->children;
+    this->velocity = scene->velocity;
+    this->position = scene->position;
+    this->rotation = scene->rotation;
+    this->name = scene->name;
+    this->type = scene->type;
 }
 
 GameScene::~GameScene() {}
