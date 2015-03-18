@@ -30,6 +30,24 @@ void GameScene::onInput(SDL_Event e) {
         Velocity v = this->getChildWithName("otherstuff")->getVelocity();
         this->getChildWithName("otherstuff")->setVelocity( Velocity{ Vector{dx, dy}, v.magnitude } );
         this->getChildWithName("otherstuff")->setRotation(rotation);
+    } else if (e.type == SDL_KEYDOWN) {
+        if (e.key.keycode == SDLK_w) {
+            Velocity v = this->getChildWithName("player")->getVelocity();
+            v.direction.y = 1;
+            this->getChildWithName("player")->setVelocity(v);
+        } else if (e.key.keycode == SDLK_s) {
+            Velocity v = this->getChildWithName("player")->getVelocity();
+            v.direction.y = -1;
+            this->getChildWithName("player")->setVelocity(v);
+        } else if (e.key.keycode == SDLK_a) {
+            Velocity v = this->getChildWithName("player")->getVelocity();
+            v.direction.x = -1;
+            this->getChildWithName("player")->setVelocity(v);
+        } else if (e.key.keycode == SDLK_d) {
+            Velocity v = this->getChildWithName("player")->getVelocity();
+            v.direction.x = 1;
+            this->getChildWithName("player")->setVelocity(v);
+        }
     }
     return Scene::onInput(e);
 }
