@@ -17,11 +17,11 @@ root:
           rotation: 0
           texture_path: texture.png
       - sprite:
-          name: otherstuff
+          name: player
           type: 2
           velocity:
             direction:
-              x: 1
+              x: 0
               y: 0
             magnitude: 100
           position:
