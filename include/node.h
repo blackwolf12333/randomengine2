@@ -21,33 +21,36 @@ public:
     EngineNode(const EngineNode &rhs);
     ~EngineNode();
 
+    // identification
     /*
      * A unique name for this node, if it's not unique it can't be used
      */
     std::string name;
     void setName(std::string name);
+    int type;
 
+    // physics
     Body body;
 
+    // children
     void addChild(EngineNode *child);
     EngineNode *getChildWithName(std::string name);
     std::vector<EngineNode*> children;
-    int type;
-
     bool hasChildren();
     
     // getters
     EngineNode *getParent();
-    Point getPosition();
+    Vector getPosition();
     float getRotation();
     Velocity getVelocity();
 
     // setters
-    void setPosition(Point position);
+    void setPosition(Vector position);
     void setRotation(float rotation);
     void setVelocity(Velocity velocity);
 
-    Point position;
+    // properties
+    Vector position;
     float rotation;
     Velocity velocity; // in pixels per frame
 

@@ -8,7 +8,7 @@ void updatePhysicsFor(float delta, EngineNode *node);
 Scene::Scene() {
     this->type = SCENE;
     this->renderer = Main::renderer;
-    this->position = Point {0, 0};
+    this->position = Vector { 0, 0 };
     this->physics = new Physics(this);
 }
 

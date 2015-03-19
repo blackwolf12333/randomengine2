@@ -69,7 +69,7 @@ EngineNode* EngineNode::getParent() {
     return this->parent;
 }
 
-Point EngineNode::getPosition() {
+Vector EngineNode::getPosition() {
     return this->position;
 }
 
@@ -81,8 +81,9 @@ Velocity EngineNode::getVelocity() {
     return this->velocity;
 }
 
-void EngineNode::setPosition(Point position) {
+void EngineNode::setPosition(Vector position) {
     this->position = position;
+    this->body.rect.start = position;
 }
 
 void EngineNode::setRotation(float rotation) {
