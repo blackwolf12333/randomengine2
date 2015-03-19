@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "spritenode.h"
+#include "physics.h"
 
 class Scene : public EngineNode
 {
@@ -21,6 +22,7 @@ public:
     void updatePhysics(float delta);
 private:
     SDL_Renderer *renderer;
+    Physics *physics;
 
     void updatePhysicsForChildrenOf(float delta, EngineNode *node);
 };

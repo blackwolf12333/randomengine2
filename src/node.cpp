@@ -1,9 +1,14 @@
 #include "node.h"
 
+/*
+ * Basically a NULL constructor, only used by YamlConfig
+ * to initialize an empty EngineNode that can be used later
+ * in the copy constructor below.
+ */
 EngineNode::EngineNode() {
     this->rotation = 0.0f;
-    this->velocity = {0};
-    this->position = {0};
+    this->velocity = {{0,0},0};
+    this->position = {0,0};
     this->parent = NULL;
     this->type = NODE;
     this->name = "";
@@ -89,5 +94,12 @@ void EngineNode::setVelocity(Velocity velocity) {
 }
 
 void EngineNode::setName(std::string name) {
+    for (std::vector<EngineNode*>::iterator i = children.begin(); i != children.end(); ++i) {
+        EngineNode *n = *i;
+        if (n->name == name) {
+            LOG("test.log", "Invalid name: %s", name.c_str());
+            return; // we can't use this name, so we won't set a name.
+        }
+    }
     this->name = name;
 }

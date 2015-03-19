@@ -86,7 +86,7 @@ namespace YAML {
         }
         const Node n = node[type];
 
-        rhs.name = n["name"].as<std::string>();
+        rhs.setName(n["name"].as<std::string>());
         rhs.type = n["type"].as<int>();
         rhs.setVelocity(n["velocity"].as<Velocity>());
         rhs.setPosition(n["position"].as<Point>());
@@ -132,7 +132,7 @@ namespace YAML {
             return false;
         }
 
-        rhs.name = n["name"].as<std::string>();
+        rhs.setName(n["name"].as<std::string>());
         rhs.type = n["type"].as<int>();
         rhs.setVelocity(n["velocity"].as<Velocity>());
         rhs.setPosition(n["position"].as<Point>());

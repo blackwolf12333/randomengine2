@@ -15,7 +15,7 @@ root:
             x: 0
             y: 0
           rotation: 0
-          texture_path: texture.png
+          texture_path: ground.png
       - sprite:
           name: otherstuff
           type: 2

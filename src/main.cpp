@@ -1,6 +1,7 @@
 #include "main.h"
 #include "gamescene.h"
 #include "yaml_config.h"
+#include "log.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -24,13 +25,13 @@ SDL_Renderer *Main::renderer;
 void Main::initSDL() {
     int init = SDL_Init(SDL_INIT_EVERYTHING);
     if (init != 0) {
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        LOG("test.log", "SDL_Init Error: %s", SDL_GetError());
         this->quit(INIT_FAILED);
     }
 
     this->window = SDL_CreateWindow("Hello World!", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (this->window == NULL || strlen(SDL_GetError()) != 0){
-        std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        LOG("test.log", "SDL_CreateWindow Error: %s", SDL_GetError());
         this->quit(WINDOW_INIT_FAILED);
     }
 
@@ -38,11 +39,11 @@ void Main::initSDL() {
     /* Without this I can't make any renderer work, my best guess is that this is a bug and will
        be fixed sooner or later */
     SDL_GL_LoadLibrary("/usr/lib/libGL.so");
-    std::cout << "SDL_GL_LoadLibrary: " << SDL_GetError() << std::endl;
+    LOG("test.log", "SDL_GL_LoadLibrary: %s", SDL_GetError());
     
     Main::renderer = SDL_CreateRenderer(this->window, 1, SDL_RENDERER_ACCELERATED);
     if (Main::renderer == NULL || strlen(SDL_GetError()) != 0){
-        std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+        LOG("test.log", "SDL_CreateRenderer Error: %s", SDL_GetError());
         this->quit(RENDERER_INIT_FAILED);
     }
 
@@ -50,8 +51,8 @@ void Main::initSDL() {
     int flags = IMG_INIT_JPG|IMG_INIT_PNG;
     int initted = IMG_Init(flags);
     if((initted&flags) != flags || strlen(IMG_GetError()) != 0) {
-        printf("IMG_Init: Failed to init required jpg and png support!\n");
-        printf("IMG_Init: %s\n", IMG_GetError());
+        LOG("test.log", "IMG_Init: Failed to init required jpg and png support!\n", 0);
+        LOG("test.log", "IMG_Init: %s\n", IMG_GetError());
         this->quit(IMAGE_INIT_FAILED); // we can't do shit like this...
     }
 
@@ -63,7 +64,7 @@ void Main::initSDL() {
     if(errors != NULL || strlen(errors) == 0) { // no problems at start up
         return;
     } else {
-        printf("Initial errors: %s\n", errors);
+        LOG("test.log", "Initial errors: %s\n", errors);
         this->quit(INIT_FAILED);
     }
 }
@@ -93,11 +94,13 @@ void Main::loop() {
                 break;
             }
             if (e.type == SDL_KEYDOWN) {
-                if(e.key.keysym.sym == SDLK_ESCAPE) {
+                if(e.key.keysym.sym == SDLK_ESCAPE) { // change this to a paused state
                     running = false;
                     break;
                 }
             }
+            // should probably filter the input here so the scene won't have to deal with
+            // window management, eg focus/quit
             scene->onInput(e);
         }
 
@@ -131,7 +134,7 @@ void Main::quit(int code) {
     if (code == 0) {
         exit(EXIT_SUCCESS);
     } else {
-        printf("Exit error code: %d\n", code);
+        LOG("test.log",  "Exit error code: %d\n", code);
         exit(EXIT_FAILURE);
     }
 }

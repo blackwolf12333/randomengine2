@@ -1,11 +1,17 @@
 #include "spritenode.h"
 #include "main.h"
+#include "physicsbody_manager.h"
 
+/*
+ * Basically a NULL constructor, only used by YamlConfig
+ * to initialize an empty SpriteNode that can be used later
+ * in the copy constructor below.
+ */
 SpriteNode::SpriteNode() {
     this->type = SPRITE;
     this->name = "";
     this->rotation = 0.0f;
-    this->velocity = {0};
+    this->velocity = {{0,0},0};
     this->position = {0};
     this->texture = NULL;
     this->texture_path = "";
@@ -45,7 +51,7 @@ void SpriteNode::init(std::string texture_path, float x, float y) {
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     float width = static_cast<float>(w);
     float height = static_cast<float>(h);
-    this->body = Body { position, width, height, 0, 0, 0 };
+    PhysicsbodyManager *pbm = new PhysicsbodyManager();pbm->addBody(this->name, Body { position, width, height, 0, 0, 0 });
 }
 
 SDL_Texture *SpriteNode::getTexture() {

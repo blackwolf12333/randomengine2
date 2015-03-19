@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "main.h"
+#include "physics.h"
 
 void renderSprite(SDL_Renderer *renderer, SpriteNode *node);
 void updatePhysicsFor(float delta, EngineNode *node);
@@ -8,6 +9,7 @@ Scene::Scene() {
     this->type = SCENE;
     this->renderer = Main::renderer;
     this->position = Point {0, 0};
+    this->physics = new Physics(this);
 }
 
 Scene::~Scene() {}
@@ -51,7 +53,8 @@ void Scene::update(float delta) {
 }
 
 void Scene::updatePhysics(float delta) {
-    this->updatePhysicsForChildrenOf(delta, this);
+    this->physics->updatePhysics(delta);
+    //this->updatePhysicsForChildrenOf(delta, this);
 }
 
 void Scene::updatePhysicsForChildrenOf(float delta, EngineNode *node) {
@@ -72,7 +75,7 @@ void updatePhysicsFor(float delta, EngineNode *node) {
     float velocity_dy = velocity.direction.y * velocity.magnitude;
     float x = position.x + (velocity_dx * delta);
     float y = position.y + (velocity_dy * delta);
-    printf("node: %s x: %f, y: %f delta: %f\n", node->name.c_str(), x, y, delta);
+    //printf("node: %s x: %f, y: %f delta: %f\n", node->name.c_str(), x, y, delta);
     node->setPosition(Point { x, y });
 }
 

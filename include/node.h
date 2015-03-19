@@ -4,28 +4,11 @@
 #include <string>
 #include <vector>
 
+#include "physics_types.h"
+#include "log.h"
+
 #define RAD(g) (g * (M_PI / 180))
 #define DEG(r) (r * (180 / M_PI))
-
-typedef struct Point_t {
-    float x, y;
-} Point;
-
-typedef Point Vector;
-
-typedef struct Velocity_t {
-    Vector direction;
-    float magnitude;
-} Velocity;
-
-typedef struct Body_t {
-    Point p;
-    float w, h;
-    char categoryBitmask;
-    char collisionBitmask;
-    char contactBitmask;
-    bool staticBody;
-} Body;
 
 #define NODE 0
 #define SCENE 1
@@ -38,6 +21,9 @@ public:
     EngineNode(const EngineNode &rhs);
     ~EngineNode();
 
+    /*
+     * A unique name for this node, if it's not unique it can't be used
+     */
     std::string name;
     void setName(std::string name);
 
