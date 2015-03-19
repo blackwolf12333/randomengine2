@@ -83,18 +83,18 @@ void Scene::updatePhysicsForChildrenOf(float delta, EngineNode *node) {
 
 /**
  * Calculates the new position for a node with the delta since the last frame.
- * 
- * TODO: add more vector operations so we can manipulate vectors more easily.
  */
 void updatePhysicsFor(float delta, EngineNode *node) {
     Velocity velocity = node->getVelocity();
-    Point position = node->getPosition();
-    float velocity_dx = velocity.direction.x * velocity.magnitude;
+    Vector movement = vectorMultiply(velocity.direction, velocity.magnitude * delta);
+    Vector newPosition = vectorAdd(node->getPosition(), movement);
+    node->setPosition(newPosition);
+    /*float velocity_dx = velocity.direction.x * velocity.magnitude;
     float velocity_dy = velocity.direction.y * velocity.magnitude;
     float x = position.x + (velocity_dx * delta);
     float y = position.y + (velocity_dy * delta);
     printf("node: %s x: %f, y: %f delta: %f\n", node->name.c_str(), x, y, delta);
-    node->setPosition(Point { x, y });
+    node->setPosition(Point { x, y });*/
 }
 
 void Scene::onInput(SDL_Event e) {
