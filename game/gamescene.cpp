@@ -15,21 +15,22 @@ GameScene::GameScene() {
 GameScene::~GameScene() {}
 
 void GameScene::onInput(SDL_Event e) {
-    if (e.type == SDL_MOUSEBUTTONDOWN) {
-        float px = this->getChildWithName("otherstuff")->getPosition().x;
-        float py = this->getChildWithName("otherstuff")->getPosition().y;
-        float bx = (float)e.button.x;
-        float by = (float)e.button.y;
-        float dy = fmax(py, by) - fmin(py, by);
-        float dx = fmax(px, bx) - fmin(px, bx);
-        printf("dx: %f\n", dx);
-        printf("dy: %f\n", dy);
-        float coefficient = dy / dx;
-        float rotation = DEG(atan(coefficient));
-        printf("%f\n", rotation);
-        Velocity v = this->getChildWithName("otherstuff")->getVelocity();
-        this->getChildWithName("otherstuff")->setVelocity( Velocity{ Vector{dx, dy}, v.magnitude } );
-        this->getChildWithName("otherstuff")->setRotation(rotation);
+    if (e.type == SDL_KEYDOWN) {
+        Velocity v = this->getChildWithName("player")->getVelocity();
+        if (e.key.keysym.sym == SDLK_w) {
+            v.direction.y = -1;
+        } else if (e.key.keysym.sym == SDLK_s) {
+            v.direction.y = 1;
+        } else if (e.key.keysym.sym == SDLK_a) {
+            v.direction.x = -1;
+        } else if (e.key.keysym.sym == SDLK_d) {
+            v.direction.x = 1;
+        }
+        this->getChildWithName("player")->setVelocity(v);
+    } else if (e.type == SDL_KEYUP) {
+        Velocity v = this->getChildWithName("player")->getVelocity();
+        v.direction = Vector {0, 0};
+        this->getChildWithName("player")->setVelocity(v);
     }
     return Scene::onInput(e);
 }
