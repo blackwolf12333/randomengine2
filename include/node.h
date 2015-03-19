@@ -4,14 +4,13 @@
 #include <string>
 #include <vector>
 
+#include "vectors.h"
+
 #define RAD(g) (g * (M_PI / 180))
 #define DEG(r) (r * (180 / M_PI))
 
-typedef struct Point_t {
-    float x, y;
-} Point;
-
-typedef Point Vector;
+// TODO: clean this up
+typedef Vector Point;
 
 typedef struct Velocity_t {
     Vector direction;
