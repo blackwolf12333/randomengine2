@@ -44,20 +44,14 @@ void SpriteNode::init(std::string texture_path, float x, float y) {
     this->texture = SpriteNode::loadTexture(texture_path);
     this->position = Point {x, y};
 
-    /* Initialize physics body ->
-       Default physics body will be the exact width and height
-       of the texture. */
-    int w, h;
-    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-    float width = static_cast<float>(w);
-    float height = static_cast<float>(h);
-    PhysicsbodyManager *pbm = new PhysicsbodyManager();pbm->addBody(this->name, Body { position, width, height, 0, 0, 0 });
+    setupPhysicsBody();
 }
 
 SDL_Texture *SpriteNode::getTexture() {
     if (this->texture == NULL) { // Try to load the texture again if it is still null at this point
         printf("Null texture: %s\n", this->texture_path.c_str());
         this->texture = SpriteNode::loadTexture(this->texture_path);
+        setupPhysicsBody();
     }
     return this->texture;
 }
@@ -82,4 +76,16 @@ SDL_Texture *SpriteNode::loadTexture(std::string path) {
         return NULL;
     }
     return texture;
+}
+
+void SpriteNode::setupPhysicsBody() {
+    /* Initialize physics body ->
+       Default physics body will be the exact width and height
+       of the texture. */
+    int w, h;
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    float width = static_cast<float>(w);
+    float height = static_cast<float>(h);
+    RectangleBody b = {position, Vector{width, height}};
+    this->body = Body { b, false };
 }

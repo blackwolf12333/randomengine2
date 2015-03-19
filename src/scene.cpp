@@ -54,29 +54,6 @@ void Scene::update(float delta) {
 
 void Scene::updatePhysics(float delta) {
     this->physics->updatePhysics(delta);
-    //this->updatePhysicsForChildrenOf(delta, this);
-}
-
-void Scene::updatePhysicsForChildrenOf(float delta, EngineNode *node) {
-    for (std::vector<EngineNode*>::iterator i = node->children.begin(); i != node->children.end(); ++i) {
-        EngineNode *child = *i;
-        if (child->type == NODE) {
-            this->updatePhysicsForChildrenOf(delta, child);
-        } else if (child->type == SPRITE) {
-            updatePhysicsFor(delta, child);
-        }
-    }
-}
-
-void updatePhysicsFor(float delta, EngineNode *node) {
-    Velocity velocity = node->getVelocity();
-    Point position = node->getPosition();
-    float velocity_dx = velocity.direction.x * velocity.magnitude;
-    float velocity_dy = velocity.direction.y * velocity.magnitude;
-    float x = position.x + (velocity_dx * delta);
-    float y = position.y + (velocity_dy * delta);
-    //printf("node: %s x: %f, y: %f delta: %f\n", node->name.c_str(), x, y, delta);
-    node->setPosition(Point { x, y });
 }
 
 void Scene::onInput(SDL_Event e) {
