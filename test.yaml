@@ -15,7 +15,20 @@ root:
             x: 50
             y: 400
           rotation: 0
-          texture_path: texture2.png
+          texture_path: assets/object1.png
+      - sprite:
+          name: object2
+          type: 2
+          velocity:
+            direction:
+              x: 0
+              y: 0
+            magnitude: 0
+          position:
+            x: 600
+            y: 200
+          rotation: 0
+          texture_path: assets/object1.png
       - sprite:
           name: player
           type: 2
@@ -23,12 +36,12 @@ root:
             direction:
               x: 0
               y: 0
-            magnitude: 100
+            magnitude: 200
           position:
             x: 150
             y: 0
           rotation: 0
-          texture_path: texture.png
+          texture_path: assets/player.png
     velocity:
       direction:
         y: 0
