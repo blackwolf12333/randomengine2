@@ -39,7 +39,7 @@ void Main::initSDL() {
     /* Without this I can't make any renderer work, my best guess is that this is a bug and will
        be fixed sooner or later */
     SDL_GL_LoadLibrary("/usr/lib/libGL.so");
-    LOG("test.log", "SDL_GL_LoadLibrary: %s", SDL_GetError());
+    LOG("test.log", "SDL_GL_LoadLibrary: %s\n", SDL_GetError());
     
     Main::renderer = SDL_CreateRenderer(this->window, 1, SDL_RENDERER_ACCELERATED);
     if (Main::renderer == NULL || strlen(SDL_GetError()) != 0){
