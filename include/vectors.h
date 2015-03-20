@@ -20,6 +20,10 @@ struct Vector {
         return Vector(a.x+x, a.y+y);
     }
 
+    Vector operator-(const Vector& a) const {
+        return Vector(a.x-x, a.y-y);
+    }
+
     Vector operator*(const float a) const {
         return Vector(x*a, y*a);
     }
