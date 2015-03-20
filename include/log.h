@@ -13,7 +13,7 @@ public:
     Log(std::string file);
     ~Log();
     
-    static void log(std::string str, ...);
+    void log(std::string str, ...);
 private:
     std::ofstream outfile;
 };
