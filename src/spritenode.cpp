@@ -1,6 +1,5 @@
 #include "spritenode.h"
 #include "main.h"
-#include "physicsbody_manager.h"
 
 /*
  * Basically a NULL constructor, only used by YamlConfig

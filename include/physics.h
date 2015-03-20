@@ -4,7 +4,6 @@
 
 #include "node.h"
 #include "vectors.h"
-#include "physicsbody_manager.h"
 
 class Physics
 {
