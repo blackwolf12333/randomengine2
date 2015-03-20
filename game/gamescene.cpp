@@ -10,6 +10,8 @@ GameScene::GameScene() {
     this->rotation = scene->rotation;
     this->name = scene->name;
     this->type = scene->type;
+
+    this->getChildWithName("object1")->body.staticBody = true;
 }
 
 GameScene::~GameScene() {}

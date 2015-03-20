@@ -17,13 +17,16 @@ void Physics::updatePhysics(float delta) {
 
         // todo check collisions
         for (std::vector<EngineNode*>::iterator i2 = scene->children.begin(); i2 != scene->children.end(); ++i2) {
-            EngineNode *another = *i2; // throws glass to the ground
+            EngineNode *another = *i2; // *throws glass to the ground*
             if (another->name == child->name) { // skip self
                 continue;
             }
             RectangleBody intersection;
             bool overlap = rectanglesOverlap(child->body.rect, another->body.rect, intersection);
             if (overlap) { // TODO: now we have to do something about this collision
+                if (another->body.staticBody) { // only move the child out of the static body
+                    printf("Static body\n");
+                }
                 printf("%f, %f, %f, %f\n", intersection.start.x, intersection.start.y, intersection.size.x, intersection.size.y);
                 printf("overlap between: %s and %s\n", child->name.c_str(), another->name.c_str());
             }
@@ -60,8 +63,8 @@ bool Physics::rectanglesOverlap(RectangleBody b1, RectangleBody b2, RectangleBod
         float ymax2 = b2.start.y + b2.size.y;
         float ymax = std::min(ymax1, ymax2);
         if (ymax > ymin) {
-            intersection.start.x = 0; //xmin;
-            intersection.start.y = 0; //ymin;
+            intersection.start.x = xmin;
+            intersection.start.y = ymin;
             intersection.size.x = xmax - xmin;
             intersection.size.y = ymax - ymin;
             return true;
