@@ -31,7 +31,15 @@ void GameScene::onInput(SDL_Event e) {
         this->getChildWithName("player")->setVelocity(v);
     } else if (e.type == SDL_KEYUP) {
         Velocity v = this->getChildWithName("player")->getVelocity();
-        v.direction = Vector {0, 0};
+        if (e.key.keysym.sym == SDLK_w) {
+            v.direction.y = 0;
+        } else if (e.key.keysym.sym == SDLK_s) {
+            v.direction.y = 0;
+        } else if (e.key.keysym.sym == SDLK_a) {
+            v.direction.x = 0;
+        } else if (e.key.keysym.sym == SDLK_d) {
+            v.direction.x = 0;
+        }
         this->getChildWithName("player")->setVelocity(v);
     }
     return Scene::onInput(e);
