@@ -23,13 +23,71 @@ void Physics::updatePhysics(float delta) {
             }
             RectangleBody intersection;
             bool overlap = rectanglesOverlap(child->body.rect, another->body.rect, intersection);
-            if (overlap) { // TODO: now we have to do something about this collision
-                if (another->body.staticBody) { // only move the child out of the static body
-                    printf("Static body\n");
-                }
-                printf("%f, %f, %f, %f\n", intersection.start.x, intersection.start.y, intersection.size.x, intersection.size.y);
-                printf("overlap between: %s and %s\n", child->name.c_str(), another->name.c_str());
+            if (overlap) {
+                handleCollision(child, another, intersection);
             }
+        }
+    }
+}
+
+// TODO: make use of static and non-static bodies, currently all other bodies than the player are static
+void Physics::handleCollision(EngineNode *node1, EngineNode *node2, RectangleBody overlap) {
+    Vector move = overlap.size;
+    Vector p = node1->getPosition();
+
+    if (node1->getVelocity().direction.x != 0 && node1->getVelocity().direction.y != 0) {
+        if (overlap.size.x < overlap.size.y) {
+            move = overlap.size;
+            if (node1->getVelocity().direction.x == 1) {
+                p.x -= move.x;
+            } else if (node1->getVelocity().direction.x == -1) {
+                p.x += move.x;
+            }
+            node1->setPosition(p);
+
+            if(rectanglesOverlap(node1->body.rect, node2->body.rect, overlap)) {
+                move = overlap.size;
+                if (node1->getVelocity().direction.y == 1) {
+                    p.y -= move.y;
+                } else if (node1->getVelocity().direction.y == -1) {
+                    p.y += move.y;
+                }
+                node1->setPosition(p);
+            }
+        } else {
+            if (node1->getVelocity().direction.y == 1) {
+                p.y -= move.y;
+            } else if (node1->getVelocity().direction.y == -1) {
+                p.y += move.y;
+            }
+            node1->setPosition(p);
+
+            if(rectanglesOverlap(node1->body.rect, node2->body.rect, overlap)) {
+                move = overlap.size;
+                if (node1->getVelocity().direction.x == 1) {
+                    p.x -= move.x;
+                } else if (node1->getVelocity().direction.x == -1) {
+                    p.x += move.x;
+                }
+                node1->setPosition(p);
+            }
+        }
+    } else {
+        if (node1->getVelocity().direction.y == 1) {
+            p.y -= move.y;
+        } else if (node1->getVelocity().direction.y == -1) {
+            p.y += move.y;
+        }
+        node1->setPosition(p);
+
+        if(rectanglesOverlap(node1->body.rect, node2->body.rect, overlap)) {
+            move = overlap.size;
+            if (node1->getVelocity().direction.x == 1) {
+                p.x -= move.x;
+            } else if (node1->getVelocity().direction.x == -1) {
+                p.x += move.x;
+            }
+            node1->setPosition(p);
         }
     }
 }

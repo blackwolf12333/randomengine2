@@ -19,6 +19,7 @@ private:
     void updatePhysicsForChildrenOf(float delta, EngineNode *node);
 
     bool rectanglesOverlap(RectangleBody b1, RectangleBody b2, RectangleBody& intersection);
+    void handleCollision(EngineNode *node1, EngineNode *node2, RectangleBody overlap);
 };
 
 #endif
