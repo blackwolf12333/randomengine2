@@ -79,6 +79,7 @@ void Main::initGameScene() {
  */
 void Main::loop() {
     bool running = true;
+    bool paused = false;
     float current_time, old_time;
     current_time = SDL_GetTicks();
     SDL_Event e;
@@ -99,6 +100,27 @@ void Main::loop() {
                     break;
                 }
             }
+            if (e.type == SDL_WINDOWEVENT) {
+                switch(e.window.event) {
+                case SDL_WINDOWEVENT_HIDDEN:
+                case SDL_WINDOWEVENT_LEAVE:
+                case SDL_WINDOWEVENT_FOCUS_LOST:
+                case SDL_WINDOWEVENT_MINIMIZED:
+                    printf("paused\n");
+                    paused = true;
+                    break;
+                case SDL_WINDOWEVENT_SHOWN:
+                case SDL_WINDOWEVENT_EXPOSED:
+                case SDL_WINDOWEVENT_FOCUS_GAINED:
+                case SDL_WINDOWEVENT_ENTER:
+                case SDL_WINDOWEVENT_MAXIMIZED:
+                    printf("unpaused\n");
+                    paused = false;
+                    break;
+                default:
+                    break;
+                }
+            }
             // should probably filter the input here so the scene won't have to deal with
             // window management, eg focus/quit
             scene->onInput(e);
@@ -108,10 +130,12 @@ void Main::loop() {
         SDL_RenderClear(Main::renderer);
 
         // update
-        this->scene->update(delta);
-        this->scene->updatePhysics(delta);
+        if (!paused) {
+            this->scene->update(delta);
+            this->scene->updatePhysics(delta);
 
-        scene->renderScene();
+            scene->renderScene();
+        }
 
         // Swap buffers
         SDL_RenderPresent(Main::renderer);
