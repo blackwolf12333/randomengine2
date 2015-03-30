@@ -26,7 +26,7 @@ root:
             magnitude: 0
           position:
             x: 600
-            y: 200
+            y: 230
           rotation: 0
           texture_path: assets/object1.png
       - sprite:
@@ -36,7 +36,7 @@ root:
             direction:
               x: 0
               y: 0
-            magnitude: 200
+            magnitude: 150
           position:
             x: 150
             y: 0
