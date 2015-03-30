@@ -20,9 +20,10 @@ public:
     virtual void onInput(SDL_Event e);
 
     void updatePhysics(float delta);
+protected:
+    Physics *physics;
 private:
     SDL_Renderer *renderer;
-    Physics *physics;
 
     void updatePhysicsForChildrenOf(float delta, EngineNode *node);
 };
