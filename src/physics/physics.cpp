@@ -24,6 +24,7 @@ void Physics::updatePhysics(float delta) {
             RectangleBody intersection;
             bool overlap = rectanglesOverlap(child->body.rect, another->body.rect, intersection);
             if (overlap) {
+                currentCollision = Collision {child->name, another->name, intersection, false};
                 handleCollision(child, another, intersection);
             }
         }
@@ -129,4 +130,12 @@ bool Physics::rectanglesOverlap(RectangleBody b1, RectangleBody b2, RectangleBod
         }
     }
     return false;
+}
+
+Collision Physics::getCollision() {
+    return currentCollision;
+}
+
+void Physics::resetCollision() {
+    currentCollision.handled = true;
 }

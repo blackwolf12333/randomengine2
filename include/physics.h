@@ -12,8 +12,12 @@ public:
     ~Physics();
     
     void updatePhysics(float delta);
+
+    Collision getCollision();
+    void resetCollision();
 private:
     EngineNode *scene;
+    Collision currentCollision;
 
     void updatePhysicsFor(float delta, EngineNode *node);
     void updatePhysicsForChildrenOf(float delta, EngineNode *node);
