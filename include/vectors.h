@@ -1,6 +1,8 @@
 #ifndef VECTORS_H
 #define VECTORS_H
 
+#include <stdio.h>
+
 struct Vector {
     float x;
     float y;
@@ -30,6 +32,10 @@ struct Vector {
 
     bool operator==(const Vector& a) const {
         return (x == a.x && y == a.y);
+    }
+
+    void print() {
+        printf("Vector {%f, %f}\n", x, y);
     }
 };
 
