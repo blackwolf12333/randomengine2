@@ -16,6 +16,12 @@ public:
     void update(float delta);
 
     void onInput(SDL_Event e);
+private:
+    bool jumping;
+    bool onground;
+
+    float gravity = 100;
+    float jumpingSpeed = 200;
 };
 
 #endif

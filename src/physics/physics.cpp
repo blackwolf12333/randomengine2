@@ -49,17 +49,17 @@ void Physics::handleCollision(EngineNode *node1, EngineNode *node2, RectangleBod
             if(rectanglesOverlap(node1->body.rect, node2->body.rect, overlap)) {
                 move = overlap.size;
                 if (node1->getVelocity().direction.y == 1) {
-                    p.y -= move.y;
+                    p.y -= move.y + 1;
                 } else if (node1->getVelocity().direction.y == -1) {
-                    p.y += move.y;
+                    p.y += move.y - 1;
                 }
                 node1->setPosition(p);
             }
         } else {
             if (node1->getVelocity().direction.y == 1) {
-                p.y -= move.y;
+                p.y -= move.y + 1;
             } else if (node1->getVelocity().direction.y == -1) {
-                p.y += move.y;
+                p.y += move.y - 1;
             }
             node1->setPosition(p);
 
@@ -75,9 +75,18 @@ void Physics::handleCollision(EngineNode *node1, EngineNode *node2, RectangleBod
         }
     } else {
         if (node1->getVelocity().direction.y == 1) {
-            p.y -= move.y;
+            p.y -= move.y + 2;
         } else if (node1->getVelocity().direction.y == -1) {
-            p.y += move.y;
+            p.y += move.y - 1;
+        } else if (node1->getVelocity().direction.y == 0) {
+            // When an object collides with another object from the side
+            // the move.y will be bigger than the move.x, but we will want it
+            // to move on the x axis then. We only want to move on the y axis
+            // when there is no move.x
+            if (move.x < move.y) {
+                
+            }
+            //p.y -= move.y + 2;
         }
         node1->setPosition(p);
 
