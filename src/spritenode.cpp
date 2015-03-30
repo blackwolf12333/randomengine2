@@ -28,7 +28,7 @@ SpriteNode::SpriteNode(const SpriteNode& node) {
     init(node.texture_path, node.position.x, node.position.y);
 }
 
-SpriteNode::SpriteNode(std::string texture_path, Point position) {
+SpriteNode::SpriteNode(std::string texture_path, Vector position) {
     init(texture_path, position.x, position.y);
 }
 
@@ -41,7 +41,7 @@ void SpriteNode::init(std::string texture_path, float x, float y) {
 
     this->texture_path = texture_path;
     this->texture = SpriteNode::loadTexture(texture_path);
-    this->position = Point {x, y};
+    this->position = Vector {x, y};
 
     setupPhysicsBody();
 }

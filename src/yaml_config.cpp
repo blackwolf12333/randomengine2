@@ -5,15 +5,15 @@
 
 namespace YAML {
     template<>
-    struct convert<Point> {
-      static Node encode(const Point& rhs) {
+    struct convert<Vector> {
+      static Node encode(const Vector& rhs) {
         Node node;
         node["x"] = rhs.x;
         node["y"] = rhs.y;
         return node;
       }
 
-      static bool decode(const Node& node, Point& rhs) {
+      static bool decode(const Node& node, Vector& rhs) {
         if(node.size() != 2) {
             printf("%f\n", node["x"].as<float>());
           return false;
@@ -39,7 +39,7 @@ namespace YAML {
           return false;
         }
 
-        rhs.direction = node["direction"].as<Point>();
+        rhs.direction = node["direction"].as<Vector>();
         rhs.magnitude = node["magnitude"].as<float>();
         return true;
       }
@@ -89,7 +89,7 @@ namespace YAML {
         rhs.setName(n["name"].as<std::string>());
         rhs.type = n["type"].as<int>();
         rhs.setVelocity(n["velocity"].as<Velocity>());
-        rhs.setPosition(n["position"].as<Point>());
+        rhs.setPosition(n["position"].as<Vector>());
         rhs.setRotation(n["rotation"].as<float>());
 
         for(std::size_t i = 0; i < n["children"].size(); i++) {
@@ -135,7 +135,7 @@ namespace YAML {
         rhs.setName(n["name"].as<std::string>());
         rhs.type = n["type"].as<int>();
         rhs.setVelocity(n["velocity"].as<Velocity>());
-        rhs.setPosition(n["position"].as<Point>());
+        rhs.setPosition(n["position"].as<Vector>());
         rhs.setRotation(n["rotation"].as<float>());
         rhs.setTexturePath(n["texture_path"].as<std::string>());
 

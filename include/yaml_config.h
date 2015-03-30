@@ -19,7 +19,7 @@ public:
 
     EngineNode *readNode(YAML::Node& yaml_node);
     Velocity readVelocity(YAML::Node& node);
-    Point readPoint(YAML::Node& node);
+    Vector readPoint(YAML::Node& node);
 };
 
 #endif

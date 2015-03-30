@@ -17,7 +17,7 @@ class SpriteNode : public EngineNode
 public:
     SpriteNode();
     SpriteNode(const SpriteNode &node);
-    SpriteNode(std::string texture_path, Point position);
+    SpriteNode(std::string texture_path, Vector position);
     SpriteNode(std::string texture_path, float x, float y);
     ~SpriteNode();
 

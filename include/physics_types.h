@@ -3,8 +3,6 @@
 
 #include "vectors.h"
 
-typedef Vector Point;
-
 typedef struct Velocity_t {
     Vector direction;
     float magnitude;
