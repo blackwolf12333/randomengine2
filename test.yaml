@@ -4,49 +4,141 @@ root:
     type: 1
     children:
       - sprite:
-          name: object1
+          name: background
           type: 2
           velocity:
-            direction:
-              x: 0
-              y: 0
-            magnitude: 0
+            magX: 0
+            magY: 0
+            default: 0
           position:
-            x: 50
+            x: 0
+            y: 0
+          rotation: 0
+          texture_path: assets/background.png
+      - sprite:
+          name: border_top
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 0
+            y: -10
+          rotation: 0
+          texture_path: assets/border_horizontal.png
+      - sprite:
+          name: border_bottom
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 0
+            y: 768
+          rotation: 0
+          texture_path: assets/border_horizontal.png
+      - sprite:
+          name: border_right
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: -10
+            y: 0
+          rotation: 0
+          texture_path: assets/border_vertical.png
+      - sprite:
+          name: border_left
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 1024
+            y: 0
+          rotation: 0
+          texture_path: assets/border_vertical.png
+      - sprite:
+          name: jelly_large1
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 500
+            y: 420
+          rotation: 0
+          texture_path: assets/jelly_red/jelly_red_large.png
+      - sprite:
+          name: jelly_small1
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 300
+            y: 600
+          rotation: 0
+          texture_path: assets/jelly_red/jelly_red_small.png
+      - sprite:
+          name: jelly_small2
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 800
+            y: 700
+          rotation: 0
+          texture_path: assets/jelly_green/jelly_green_small.png
+      - sprite:
+          name: jelly_small3
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 800
+            y: 300
+          rotation: 0
+          texture_path: assets/jelly_green/jelly_green_small.png
+      - sprite:
+          name: jelly_medium1
+          type: 2
+          velocity:
+            magX: 0
+            magY: 0
+            default: 0
+          position:
+            x: 200
             y: 400
           rotation: 0
-          texture_path: assets/object1.png
-      - sprite:
-          name: object2
-          type: 2
-          velocity:
-            direction:
-              x: 0
-              y: 0
-            magnitude: 0
-          position:
-            x: 600
-            y: 230
-          rotation: 0
-          texture_path: assets/object1.png
+          texture_path: assets/jelly_yellow/jelly_medium.png
       - sprite:
           name: player
           type: 2
           velocity:
-            direction:
-              x: 0
-              y: 0
-            magnitude: 150
+            magX: 0
+            magY: 0
+            default: 120
           position:
-            x: 150
-            y: 0
+            x: 250
+            y: 200
           rotation: 0
-          texture_path: assets/player.png
+          texture_path: assets/jelly_player/jelly_player_small.png
     velocity:
-      direction:
-        y: 0
-        x: 0
-      magnitude: 0
+      magX: 0
+      magY: 0
+      default: 0
     position:
       x: 0
       y: 0
