@@ -38,7 +38,7 @@ void Main::initSDL() {
         this->quit(INIT_FAILED);
     }
 
-    this->window = SDL_CreateWindow("Hello World!", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    this->window = SDL_CreateWindow("Hello World!", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (this->window == NULL || strlen(SDL_GetError()) != 0){
         LOG("test.log", "SDL_CreateWindow Error: %s", SDL_GetError());
         this->quit(WINDOW_INIT_FAILED);
