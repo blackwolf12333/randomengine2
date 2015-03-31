@@ -11,82 +11,105 @@ GameScene::GameScene(std::string file) {
     this->name = scene->name;
     this->type = scene->type;
 
-    this->jumping = false;
-    this->onground = false;
+    pause = false;
+    player_size = SIZE_SMALL;
 }
 
 GameScene::~GameScene() {}
 
 void GameScene::onInput(SDL_Event e) {
+    if (pause) {
+        return;
+    }
     if (e.type == SDL_KEYDOWN) {
         Velocity v = this->getChildWithName("player")->getVelocity();
         if (e.key.keysym.sym == SDLK_w) {
-            v.direction.y = -1;
-            onground = false;
+            v.magY = -1 * v.defaultMagnitude;
         } else if (e.key.keysym.sym == SDLK_s) {
-            v.direction.y = 1;
+            v.magY = 1 * v.defaultMagnitude;
         } else if (e.key.keysym.sym == SDLK_a) {
-            v.direction.x = -1;
+            v.magX = -1 * v.defaultMagnitude;
         } else if (e.key.keysym.sym == SDLK_d) {
-            v.direction.x = 1;
-        } else if (e.key.keysym.sym == SDLK_SPACE) {
-            jumping = true;
+            v.magX = 1 * v.defaultMagnitude;
         }
         this->getChildWithName("player")->setVelocity(v);
     } else if (e.type == SDL_KEYUP) {
         Velocity v = this->getChildWithName("player")->getVelocity();
         if (e.key.keysym.sym == SDLK_w) {
-            v.direction.y = 0;
+            v.magY *= 0;
         } else if (e.key.keysym.sym == SDLK_s) {
-            v.direction.y = 0;
+            v.magY *= 0;
         } else if (e.key.keysym.sym == SDLK_a) {
-            v.direction.x = 0;
+            v.magX *= 0;
         } else if (e.key.keysym.sym == SDLK_d) {
-            v.direction.x = 0;
+            v.magX *= 0;
         }
         this->getChildWithName("player")->setVelocity(v);
     }
     return Scene::onInput(e);
 }
 
-void GameScene::update(float delta) { //TODO: game logic
-    if ((physics->getCollision().name1.compare("player")) == 0 || (physics->getCollision().name2.compare("player") == 0)) {
-        if (!physics->getCollision().handled) { // if we touch the ground we have to reset everything related to jumping.
-            jumping = false;
-            onground = true;
-            physics->resetCollision();
-            jumpingSpeed = 200;
-            //getChildWithName("object1")->getPosition().print();
-        }
-    }
+void GameScene::fallToBits() {
+    printf("BLUBLUBLBLUBL!!\n");
+    deleteChild("player");
+    pause = true;
+}
 
-    if (jumping) {
-        EngineNode *player = getChildWithName("player");
-        Vector direction = player->getVelocity().direction;
-        float velocity = player->getVelocity().magnitude;
-        Vector pos = player->getPosition();
-        pos.y -= (jumpingSpeed * delta);
-        direction.y = jumpingSpeed < 0 ? 1 : -1;
-        jumpingSpeed -= (gravity * delta)+ (pos.y/10 * delta);
-        player->setPosition(pos);
-        player->setVelocity(Velocity{direction, velocity});
+void GameScene::grow() {
+    if (player_size > 3) {
+        return;
     }
-    if (!onground && !jumping) {
-        EngineNode *player = getChildWithName("player");
-        Vector pos = player->getPosition();
-        pos.print();
-        pos.y += (gravity * delta) + (pos.y / 10 * delta);
-        player->setPosition(pos);
-    } else if (onground && !jumping) { // still want that gravity pulling it down.
-        EngineNode *player = getChildWithName("player");
-        Vector direction = player->getVelocity().direction;
-        float velocity = player->getVelocity().magnitude;
-        Vector pos = player->getPosition();
-        pos.print();
-        pos.y += (gravity * delta) + (pos.y / 10 * delta);
-        direction.y = 1;
-        player->setPosition(pos);
-        player->setVelocity(Velocity{direction, velocity});
+    player_size += 1;
+    SpriteNode *player = (SpriteNode*)getChildWithName("player");
+    if(player_size == SIZE_SMALL) {
+        player->setTexturePath(PLAYER_SMALL_TEXTURE);
+    } else if (player_size == SIZE_MEDIUM) {
+        player->setTexturePath(PLAYER_MEDIUM_TEXTURE);
+    } else if (player_size >= SIZE_LARGE) {
+        player->setTexturePath(PLAYER_LARGE_TEXTURE);
+    }
+}
+
+void GameScene::eatJelly(std::string jelly) {
+    deleteChild(jelly);
+    grow();
+}
+
+int GameScene::getJellySize(std::string jelly) {
+    if(jelly.compare(0, strlen("jelly_large"), "jelly_large") == 0) {
+        return SIZE_LARGE;
+    } else if (jelly.compare(0, strlen("jelly_medium"), "jelly_medium") == 0) {
+        return SIZE_MEDIUM;
+    } else if (jelly.compare(0, strlen("jelly_small"), "jelly_small") == 0) {
+        return SIZE_SMALL;
+    } else {
+        return SIZE_LARGE; // return large if this is an error, the player should not see that
+    }
+}
+
+void GameScene::collideWithJelly(std::string jelly) {
+    if (getJellySize(jelly) > player_size) {
+        fallToBits();
+    } else {
+        eatJelly(jelly);
+    }
+}
+
+void GameScene::update(float delta) { //TODO: game logic
+    if (!pause) {
+        if (!physics->getCollision().handled) {
+            if ((physics->getCollision().name1.compare("player")) == 0) {
+                if (physics->getCollision().name2.compare(0, 5, "jelly") == 0) {
+                    collideWithJelly(physics->getCollision().name2);
+                    physics->resetCollision();
+                }
+            } else if (physics->getCollision().name2.compare("player") == 0) {
+                if (physics->getCollision().name1.compare(0, 5, "jelly") == 0) {
+                    collideWithJelly(physics->getCollision().name1);
+                    physics->resetCollision();
+                }
+            }
+        }
     }
     return;
 }
