@@ -1,9 +1,9 @@
 #include "gamescene.h"
 #include "yaml_config.h"
 
-GameScene::GameScene() {
+GameScene::GameScene(std::string file) {
     YamlConfig *yaml = new YamlConfig();
-    EngineNode *scene = yaml->read("test.yaml");
+    EngineNode *scene = yaml->read(file.c_str());
     this->children = scene->children;
     this->velocity = scene->velocity;
     this->position = scene->position;

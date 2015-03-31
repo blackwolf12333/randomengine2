@@ -14,7 +14,16 @@
 #define RENDERER_INIT_FAILED    (-3)
 #define IMAGE_INIT_FAILED       (-4)
 
-Main::Main() {}
+Main::Main(char *argv[], int argc) {
+    if (argc > 1) {
+        if(strcmp(argv[1], "--scene") == 0) {
+            printf("Using scene: %s\n", argv[2]);
+            main_scene_file = std::string(argv[2]);
+        }
+    } else {
+        main_scene_file = std::string("test.yaml");
+    }
+}
 Main::~Main() {}
 
 SDL_Renderer *Main::renderer;
@@ -69,7 +78,7 @@ void Main::initSDL() {
 }
 
 void Main::initGameScene() {
-    scene = new GameScene();
+    scene = new GameScene(main_scene_file);
 }
 
 /**
@@ -162,8 +171,8 @@ void Main::quit(int code) {
     }
 }
 
-int main() {
-    Main *main = new Main();
+int main(int argc, char *argv[]) {
+    Main *main = new Main(argv, argc);
     main->initSDL();
     main->initGameScene();
     main->loop();

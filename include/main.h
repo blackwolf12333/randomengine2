@@ -8,7 +8,7 @@
 
 class Main {
 public:
-    Main();
+    Main(char *argv[], int argc);
     ~Main();
     
     void initSDL();
@@ -22,6 +22,7 @@ public:
 private:
     SDL_Window *window;
     Scene *scene;
+    std::string main_scene_file;
 };
 
 #endif
