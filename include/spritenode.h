@@ -29,6 +29,7 @@ public:
     std::string texture_path;
 private:
     SDL_Texture *texture;
+    bool newTexture;
 
     void init(std::string texture_path, float x, float y);
     void setupPhysicsBody();

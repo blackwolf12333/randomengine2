@@ -47,10 +47,11 @@ void SpriteNode::init(std::string texture_path, float x, float y) {
 }
 
 SDL_Texture *SpriteNode::getTexture() {
-    if (this->texture == NULL) { // Try to load the texture again if it is still null at this point
-        printf("Null texture: %s\n", this->texture_path.c_str());
+    if (this->texture == NULL || newTexture) { // Try to load the texture again if it is still null at this point
+        printf("New texture: %s\n", this->texture_path.c_str());
         this->texture = SpriteNode::loadTexture(this->texture_path);
         setupPhysicsBody();
+        newTexture = false;
     }
     return this->texture;
 }
@@ -61,6 +62,7 @@ std::string SpriteNode::getTexturePath() {
 
 void SpriteNode::setTexturePath(std::string path) {
     this->texture_path = path;
+    newTexture = true;
 }
 
 /**
