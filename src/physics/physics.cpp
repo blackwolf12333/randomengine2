@@ -115,7 +115,7 @@ void Physics::updatePhysicsForChildrenOf(float delta, EngineNode *node) {
 
 void Physics::updatePhysicsFor(float delta, EngineNode *node) {
     Velocity velocity = node->getVelocity();
-    Vector movement = velocity.direction * (velocity.magnitude * delta);
+    Vector movement = Vector {velocity.magX * delta, velocity.magY * delta};
     Vector newPosition = node->getPosition() + movement;
     node->setPosition(newPosition);
 }

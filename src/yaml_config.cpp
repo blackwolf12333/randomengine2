@@ -29,18 +29,20 @@ namespace YAML {
     struct convert<Velocity> {
       static Node encode(const Velocity& rhs) {
         Node node;
-        node["direction"] = rhs.direction;
-        node["magnitude"] = rhs.magnitude;
+        node["magX"] = rhs.magX;
+        node["magY"] = rhs.magY;
+        node["default"] = rhs.defaultMagnitude;
         return node;
       }
 
       static bool decode(const Node& node, Velocity& rhs) {
-        if(node.size() != 2) {
+        if(node.size() != 3) {
           return false;
         }
 
-        rhs.direction = node["direction"].as<Vector>();
-        rhs.magnitude = node["magnitude"].as<float>();
+        rhs.magX = node["magX"].as<float>();
+        rhs.magY = node["magY"].as<float>();
+        rhs.defaultMagnitude = node["default"].as<float>();
         return true;
       }
     };

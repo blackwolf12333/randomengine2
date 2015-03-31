@@ -10,7 +10,7 @@ SpriteNode::SpriteNode() {
     this->type = SPRITE;
     this->name = "";
     this->rotation = 0.0f;
-    this->velocity = {{0,0},0};
+    this->velocity = {0,0,0};
     this->position = {0};
     this->texture = NULL;
     this->texture_path = "";

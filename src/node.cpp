@@ -8,7 +8,7 @@
  */
 EngineNode::EngineNode() {
     this->rotation = 0.0f;
-    this->velocity = {{0,0},0};
+    this->velocity = {0,0,0};
     this->position = {0,0};
     this->parent = NULL;
     this->type = NODE;

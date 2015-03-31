@@ -4,11 +4,13 @@
 #include "vectors.h"
 
 typedef struct Velocity_t {
-    Vector direction;
-    float magnitude;
+    float magX;
+    float magY;
+
+    float defaultMagnitude;
 
     void print() {
-        printf("Velocity {direction:(%f, %f) magnitude:%f}\n", direction.x, direction.y, magnitude);
+        printf("Velocity {size:(%f, %f) default:(%f)}\n", magX, magY, defaultMagnitude);
     }
 } Velocity;
 
