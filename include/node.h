@@ -34,6 +34,8 @@ public:
 
     // children
     void addChild(EngineNode *child);
+    void deleteChild(EngineNode *child);
+    void deleteChild(std::string name);
     EngineNode *getChildWithName(std::string name);
     std::vector<EngineNode*> children;
     bool hasChildren();

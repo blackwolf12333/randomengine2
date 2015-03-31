@@ -1,4 +1,5 @@
 #include "node.h"
+#include <algorithm>
 
 /*
  * Basically a NULL constructor, only used by YamlConfig
@@ -34,6 +35,19 @@ void EngineNode::addChild(EngineNode *child) {
     if (child != nullptr) {
         this->children.push_back(child);
         child->parent = this;
+    }
+}
+
+void EngineNode::deleteChild(EngineNode *child) {
+    if (child != nullptr) {
+        this->children.erase(std::find(children.begin(), children.end(), child));
+    }
+}
+
+void EngineNode::deleteChild(std::string name) {
+    EngineNode *child = this->getChildWithName(name);
+    if (child != nullptr) {
+        this->children.erase(std::find(children.begin(), children.end(), child));
     }
 }
 
