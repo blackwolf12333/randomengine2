@@ -88,21 +88,25 @@ namespace YAML {
         }
         const Node n = node[type];
 
-        rhs.setName(n["name"].as<std::string>());
-        rhs.type = n["type"].as<int>();
-        rhs.setVelocity(n["velocity"].as<Velocity>());
-        rhs.setPosition(n["position"].as<Vector>());
-        rhs.setRotation(n["rotation"].as<float>());
+        if (n.size() == 6) {
+            rhs.setName(n["name"].as<std::string>());
+            rhs.type = n["type"].as<int>();
+            rhs.setVelocity(n["velocity"].as<Velocity>());
+            rhs.setPosition(n["position"].as<Vector>());
+            rhs.setRotation(n["rotation"].as<float>());
 
-        for(std::size_t i = 0; i < n["children"].size(); i++) {
-            if(n["children"][i]["sprite"].IsDefined()) {
-                rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
-            } else {
-                rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
+            for(std::size_t i = 0; i < n["children"].size(); i++) {
+                if(n["children"][i]["sprite"].IsDefined()) {
+                    rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
+                } else {
+                    rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
+                }
             }
+
+            return true;
         }
 
-        return true;
+        return false;
       }
     };
 
@@ -134,22 +138,26 @@ namespace YAML {
             return false;
         }
 
-        rhs.setName(n["name"].as<std::string>());
-        rhs.type = n["type"].as<int>();
-        rhs.setVelocity(n["velocity"].as<Velocity>());
-        rhs.setPosition(n["position"].as<Vector>());
-        rhs.setRotation(n["rotation"].as<float>());
-        rhs.setTexturePath(n["texture_path"].as<std::string>());
+        if (n.size() == 6) {
+            rhs.setName(n["name"].as<std::string>());
+            rhs.type = n["type"].as<int>();
+            rhs.setVelocity(n["velocity"].as<Velocity>());
+            rhs.setPosition(n["position"].as<Vector>());
+            rhs.setRotation(n["rotation"].as<float>());
+            rhs.setTexturePath(n["texture_path"].as<std::string>());
 
-        for(std::size_t i = 0; i < n["children"].size(); i++) {
-            if(n["children"][i]["sprite"].IsDefined()) {
-                rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
-            } else {
-                rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
+            for(std::size_t i = 0; i < n["children"].size(); i++) {
+                if(n["children"][i]["sprite"].IsDefined()) {
+                    rhs.addChild(new SpriteNode(n["children"][i]["sprite"].as<SpriteNode>()));
+                } else {
+                    rhs.addChild(new EngineNode(n["children"][i].as<EngineNode>()));
+                }
             }
+
+            return true;
         }
 
-        return true;
+        return false;
       }
     };
 }
